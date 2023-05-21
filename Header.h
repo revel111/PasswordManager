@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <set>
 #include <vector>
+#include <bits/stdc++.h>
 
 using std::cout, std::cin, std::string, std::vector;
 
@@ -15,7 +16,6 @@ class Password {
     string login;
     string service;
 public:
-
     string getName();
 
     Password(string nameN);
@@ -32,4 +32,6 @@ public:
     static vector<Password> getPasswordVector();
 
     static vector<string> getCategoryVector();
+    static void addCategory();
+    static void deleteCategory();
 };
