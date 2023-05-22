@@ -1,12 +1,45 @@
+#pragma once
+
+#include <iostream>
 #include <string>
+#include <cstdlib>
+#include <set>
+#include <vector>
+#include <algorithm>
+#include <map>
 
-class Password {
-    std::string name;
-    std::string text;
-    std::string category;
-    std::string login;
-    std::string service;
+using std::cout, std::cin, std::string, std::vector, std::map, std::getline;
+
+class Record {
+    string name;
+    string text;
+    string category;
+    string service;
+    string login;
 public:
-    Password();
+    string getName();
 
+    Record(string nameN);
+
+    static void addRecord();
+
+    static string generatePassword();
+};
+
+class Manager {
+    static map<string, vector<Record>> data;
+    static vector<Record> passwordVector;
+    static vector<string> categoryVector;
+public:
+    vector<Record> getPasswordVector();
+
+    vector<string> getCategoryVector();
+
+    static map<string, vector<Record>> getData();
+
+    static void printCategories();
+
+    static void addCategory();
+
+    static void deleteCategory();
 };
