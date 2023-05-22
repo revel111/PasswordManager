@@ -1,36 +1,46 @@
 #include "Header.h"
 
-Password::Password(std::string name) {
+Record::Record(std::string name) {
     this->name = name;
 }
 
-std::string Password::getName() {
+std::string Record::getName() {
     return name;
 }
 
-void Password::createPassword() {
+void Record::addRecord() {
     auto ch = 0;
+    string name = "";
+    string password = "";
+    string category = "";
+    string service = "";
+    string login = "";
+
+
+    cout << "Enter the name of a password\n";
+    getline(std::cin, name);
+
     cout
             << "Enter 1 if you want to create your own password\nEnter 2 if you want to generate password\nEnter 0 if you want to want to stop creating password\n";
     cin >> ch;
-
-    string password = "";
+    cin.ignore();
 
     switch (ch) {
         case 1:
             cout << "Enter a password. A number of characters should be 5-20\n";
-            cin >> password;
+            getline(std::cin, password);
             if (password.size() < 5 || password.size() > 20) {
                 cout
                         << "Wrong input\nEnter 1 if you want to create password again\nEnter another digit if you want to stop creating password\n";
                 cin >> ch;
+                cin.ignore();
                 if (ch == 1)
-                    Password::createPassword();
+                    Record::addRecord();
                 return;
             }
             break;
         case 2 :
-            password = Password::generatePassword();
+            password = Record::generatePassword();
             break;
         case 0:
             return;
@@ -38,8 +48,9 @@ void Password::createPassword() {
             cout
                     << "Wrong input\nEnter 1 if you want to create password again\nEnter another digit if you want to stop creating password\n";
             cin >> ch;
+            cin.ignore();
             if (ch == 1)
-                Password::createPassword();
+                Record::addRecord();
             return;
     }
 
@@ -79,13 +90,48 @@ void Password::createPassword() {
     cout << "The strength of your password is " << score
          << "/100 \nEnter 1 if you want to use this password\nEnter another digit if you want to try to create password again\n";
     cin >> ch;
+    cin.ignore();
     if (ch == 1) {
-        Password::createPassword();
+        Record::addRecord();
         return;
+    }
+
+    cout
+            << "Enter 1 if you want to choose existing category\nEnter 2 if you want to create new category\nEnter 0 if you want to stop creating password\n";
+    cin >> ch;
+    cin.ignore();
+
+    switch (ch) {
+        case 1:
+            Manager::printCategories();
+            getline(cin, category);
+            if (Manager::getData().find(category) != Manager::getData().end()) {
+                cout
+                        << "Category does not already exist\nEnter 1 if you want to try to add category again\nEnter another digit if you want to stop adding category\n";
+                cin >> ch;
+                cin.ignore();
+                if (ch == 1)
+                    Record::addRecord();
+                return;
+            }
+            break;
+        case 2:
+            Manager::addCategory();
+            break;
+        case 0:
+            return;
+        default:
+            cout
+                    << "Wrong input\nEnter 1 if you want to create password again\nEnter another digit if you want to stop creating password\n";
+            cin >> ch;
+            cin.ignore();
+            if (ch == 1)
+                Record::addRecord();
+            return;
     }
 }
 
-string Password::generatePassword() {
+string Record::generatePassword() {
     auto lowCase = "abcdefghijklmnopqrstuvwxyz";
     auto upCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     auto specialChar = "£$&()*+[]@#^-_!?";
@@ -102,8 +148,9 @@ string Password::generatePassword() {
         cout
                 << "Wrong input\nEnter 1 if you want to generate password again\nEnter another digit if you want to stop creating password\n";
         cin >> numberChar;
+        cin.ignore();
         if (numberChar == 1)
-            Password::generatePassword();
+            Record::generatePassword();
         return "";
     }
 
@@ -128,14 +175,16 @@ string Password::generatePassword() {
             cout
                     << "Wrong input\nEnter 1 if you want to generate password again\nEnter another digit if you want to stop creating password\n";
             cin >> numberChar;
+            cin.ignore();
             if (numberChar == 1)
-                Password::generatePassword();
+                Record::generatePassword();
             return "";
     }
 
     cout
             << "Enter 1 if you want to have special symbols\nEnter 2 if you don't want to have special symbols\nEnter 0 if you want to want to stop generating password\n";
     cin >> specialSymbols;
+    cin.ignore();
 
     switch (specialSymbols) {
         case 1:
@@ -149,8 +198,9 @@ string Password::generatePassword() {
             cout
                     << "Wrong input\nEnter 1 if you want to generate password again\nEnter another digit if you want to stop creating password\n";
             cin >> numberChar;
+            cin.ignore();
             if (numberChar == 1)
-                Password::generatePassword();
+                Record::generatePassword();
             return "";
     }
 
@@ -161,10 +211,12 @@ string Password::generatePassword() {
         password += characters[random];
     }
 
-    cout << "Enter 1 if you want to regenerate password\nEnter another digit to use this password: " << password;
+    cout << "Enter 1 if you want to use this password: " << password << '\n'
+         << "Enter another digit to use regenerate password\n";
     cin >> numberChar;
+    cin.ignore();
     if (numberChar == 1) {
-        Password::generatePassword();
+        Record::generatePassword();
         return "";
     }
     return password;

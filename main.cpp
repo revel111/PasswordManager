@@ -9,6 +9,7 @@ auto main() -> int {
 //                << "Choose what to do \nEnter 1 if you want to search passwords\nEnter 2 if you want to sort passwords\nEnter 3 if you want to add password\nEnter 4 if you want to edit password\nEnter 5 if you want to delete password\nEnter 6 if you want to add category\nEnter 7 if you want to delete category\n";
 //        auto ch = -1;
 //        cin >> ch;
+//          cin.ignore();
 //
 //
 //        switch (ch) {
@@ -19,7 +20,7 @@ auto main() -> int {
 //                //
 //                break;
 //            case 3:
-//                Password::createPassword();
+//                Record::createPassword();
 //                break;
 //            case 4:
 //                //
@@ -40,22 +41,16 @@ auto main() -> int {
 //                cout << "Wrong input\n";
 //        }
 //    }
-//    vector<int> v;
-//    //Insert values 1 to 10
-//    v.push_back(20);
-//    v.push_back(10);
-//    v.push_back(30);
-//    v.push_back(20);
-//    v.push_back(40);
-//    v.push_back(20);
-//    v.push_back(10);
-//
-//    vector<int>::iterator new_end;
-//    new_end = remove(v.begin(), v.end(), 20);
-//
-//    if(std::find(v.begin(), v.end(), 20) != v.end())
-//        cout << "lys";
 
+    Record record1("record1");
+    Record record2("record2");
+    Record record3("record3");
+    Record record4("record4");
+
+    Manager::addCategory();
+    Manager::printCategories();
+
+    Record::addRecord();
 
     return 0;
 }
