@@ -1,11 +1,20 @@
 #include "Header.h"
 
-Record::Record(std::string name) {
+Record::Record(string name) {
     this->name = name;
 }
 
-std::string Record::getName() {
+string Record::getName() {
     return name;
+}
+
+std::ostream &operator<<(std::ostream &os, const Record &r) {
+    return (os << "Name: " << r.<< "\n Age: " << s.age << "\n Final Grade: " << s.finalGrade << '\n');
+}
+
+string Record::toString() {
+    string str =;
+    return str;
 }
 
 void Record::addRecord() {
@@ -91,7 +100,7 @@ void Record::addRecord() {
          << "/100 \nEnter 1 if you want to use this password\nEnter another digit if you want to try to create password again\n";
     cin >> ch;
     cin.ignore();
-    if (ch == 1) {
+    if (ch != 1) {
         Record::addRecord();
         return;
     }
@@ -105,9 +114,9 @@ void Record::addRecord() {
         case 1:
             Manager::printCategories();
             getline(cin, category);
-            if (Manager::getData().find(category) != Manager::getData().end()) {
+            if (Manager::getData().find(category) == Manager::getData().end()) {
                 cout
-                        << "Category does not already exist\nEnter 1 if you want to try to add category again\nEnter another digit if you want to stop adding category\n";
+                        << "Category does not exist\nEnter 1 if you want to try to add category again\nEnter another digit if you want to try to create password again\n";
                 cin >> ch;
                 cin.ignore();
                 if (ch == 1)
@@ -129,6 +138,8 @@ void Record::addRecord() {
                 Record::addRecord();
             return;
     }
+
+
 }
 
 string Record::generatePassword() {

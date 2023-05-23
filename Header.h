@@ -13,13 +13,14 @@ using std::cout, std::cin, std::string, std::vector, std::map, std::getline;
 class Record {
     string name;
     string text;
-    string category;
     string service;
     string login;
 public:
     string getName();
 
     Record(string nameN);
+
+    string toString();
 
     static void addRecord();
 
