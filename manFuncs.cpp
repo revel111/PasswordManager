@@ -1,20 +1,19 @@
 #include "Header.h"
 
-vector<Record> Manager::passwordVector;
-vector<string> Manager::categoryVector;
 map<string, vector<Record>> Manager::data;
-
-
-vector<Record> Manager::getPasswordVector() {
-    return vector<Record>();
-}
-
-vector<string> Manager::getCategoryVector() {
-    return vector<string>();
-}
 
 map<string, vector<Record>> Manager::getData() {
     return map<string, vector<Record>>();
+}
+
+void Manager::insertInData(const string &key, const Record &record) {
+    auto it = data.find(key);
+    if (it == data.end()) {
+        std::vector<Record> newVector;
+        newVector.push_back(record);
+        data.insert({key, newVector});
+    } else
+        it->second.push_back(record);
 }
 
 void Manager::printCategories() {
@@ -25,14 +24,28 @@ void Manager::printCategories() {
     }
 }
 
+void Manager::printData() {
+    cout << "List of all passwords\n";
+
+    for (const auto &pair: data) {
+        cout << "Category: " << pair.first << "; Passwords: \n";
+        const vector<Record> &vec = pair.second;
+        for (auto i = 0; i < vec.size(); i++) {
+            cout << vec[i];
+            if (i != vec.size() - 1)
+                cout << '\n';
+        }
+        cout << '\n';
+    }
+}
+
 void Manager::addCategory() {
     cout << "Enter name of new category\n";
     string name;
     getline(cin, name);
-//    Manager::categoryVector.push_back(name);
 
     if (Manager::data.find(name) == data.end())
-        data.insert(std::make_pair(name, std::vector<Record>()));
+        data.insert(std::make_pair(name, vector<Record>()));
     else {
         auto ch = -1;
         cout
@@ -43,35 +56,27 @@ void Manager::addCategory() {
             Manager::addCategory();
         return;
     }
-
 }
 
 void Manager::deleteCategory() {
-    cout << "Enter name of category to delete\n";
-    string name;
-    getline(cin, name);
-
-    if (std::find(categoryVector.begin(), categoryVector.end(), name) != categoryVector.end()) {
-        categoryVector.erase(std::remove(categoryVector.begin(), categoryVector.end(), name), categoryVector.end());
-
-        for (int i = 0; i < passwordVector.size(); i++)
-            if (passwordVector.at(i).getName() == name)
-                passwordVector.erase(passwordVector.begin() + i);
-
-//        for (auto it = passwordVector.begin(); it != passwordVector.end();)
-//            if (it->getName() == name)
-//                it = passwordVector.erase(it); // Remove the element and update iterator
-//            else
-//                ++it; // Move to the next element
-
-    } else {
-        auto ch = -1;
-        cout
-                << "Wrong input\nEnter 1 if you want to try to delete category again\nEnter another digit if you want to stop deleting category\n";
-        cin >> ch;
-        cin.ignore();
-        if (ch == 1)
-            Manager::deleteCategory();
-        return;
-    }
+//    cout << "Enter name of category to delete\n";
+//    string name;
+//    getline(cin, name);
+//
+//    if (std::find(categoryVector.begin(), categoryVector.end(), name) != categoryVector.end()) {
+//        categoryVector.erase(std::remove(categoryVector.begin(), categoryVector.end(), name), categoryVector.end());
+//
+//        for (int i = 0; i < passwordVector.size(); i++)
+//            if (passwordVector.at(i).getName() == name)
+//                passwordVector.erase(passwordVector.begin() + i);
+//    } else {
+//        auto ch = -1;
+//        cout
+//                << "Wrong input\nEnter 1 if you want to try to delete category again\nEnter another digit if you want to stop deleting category\n";
+//        cin >> ch;
+//        cin.ignore();
+//        if (ch == 1)
+//            Manager::deleteCategory();
+//        return;
+//    }
 }

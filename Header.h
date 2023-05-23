@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+//#include <utility> //xzz
 
 using std::cout, std::cin, std::string, std::vector, std::map, std::getline;
 
@@ -20,7 +21,13 @@ public:
 
     Record(string nameN);
 
-    string toString();
+    Record(string nameN, string textN, string serviceN, string loginN);
+
+    Record(string nameN, string textN);
+
+    Record(string nameN, string textN, string serviceOrLogin, int ch);
+
+    friend std::ostream &operator<<(std::ostream &, const Record &);
 
     static void addRecord();
 
@@ -29,16 +36,15 @@ public:
 
 class Manager {
     static map<string, vector<Record>> data;
-    static vector<Record> passwordVector;
-    static vector<string> categoryVector;
 public:
-    vector<Record> getPasswordVector();
-
-    vector<string> getCategoryVector();
 
     static map<string, vector<Record>> getData();
 
     static void printCategories();
+
+    static void printData();
+
+    static void insertInData(const string &key, const Record &record);
 
     static void addCategory();
 

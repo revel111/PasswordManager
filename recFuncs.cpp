@@ -1,7 +1,28 @@
 #include "Header.h"
 
 Record::Record(string name) {
-    this->name = name;
+    this->name = std::move(name);
+}
+
+Record::Record(string name, string text, string service, string login) {
+    this->name = std::move(name);
+    this->text = std::move(text);
+    this->service = std::move(service);
+    this->login = std::move(login);
+}
+
+Record::Record(string name, string text) {
+    this->name = std::move(name);
+    this->text = std::move(text);
+}
+
+Record::Record(string name, string text, string serviceOrLogin, int ch) {
+    this->name = std::move(name);
+    this->text = std::move(text);
+    if (ch == 1)
+        this->login = std::move(serviceOrLogin);
+    else
+        this->service = std::move(serviceOrLogin);
 }
 
 string Record::getName() {
@@ -9,12 +30,7 @@ string Record::getName() {
 }
 
 std::ostream &operator<<(std::ostream &os, const Record &r) {
-    return (os << "Name: " << r.<< "\n Age: " << s.age << "\n Final Grade: " << s.finalGrade << '\n');
-}
-
-string Record::toString() {
-    string str =;
-    return str;
+    return os << "Name: " << r.name;
 }
 
 void Record::addRecord() {
@@ -37,7 +53,7 @@ void Record::addRecord() {
     switch (ch) {
         case 1:
             cout << "Enter a password. A number of characters should be 5-20\n";
-            getline(std::cin, password);
+            getline(cin, password);
             if (password.size() < 5 || password.size() > 20) {
                 cout
                         << "Wrong input\nEnter 1 if you want to create password again\nEnter another digit if you want to stop creating password\n";
@@ -139,7 +155,67 @@ void Record::addRecord() {
             return;
     }
 
+    cout
+            << "Enter 1 if you want to add website/service\nEnter 2 if you do not want to add website/service\nEnter 0 if you want to stop creating password\n";
+    cin >> ch;
+    cin.ignore();
 
+    switch (ch) {
+        case 1:
+            cout << "Enter a website/service. A number of characters should be 5-20\n";
+            getline(cin, service);
+            break;
+        case 2:
+            break;
+        case 0:
+            return;
+        default:
+            cout
+                    << "Wrong input\nEnter 1 if you want to create password again\nEnter another digit if you want to stop creating password\n";
+            cin >> ch;
+            cin.ignore();
+            if (ch == 1)
+                Record::addRecord();
+            return;
+    }
+
+    cout
+            << "Enter 1 if you want to add login\nEnter 2 if you do not want to add login\nEnter 0 if you want to stop creating password\n";
+    cin >> ch;
+    cin.ignore();
+
+    switch (ch) {
+        case 1:
+            cout << "Enter a login. A number of characters should be 5-20\n";
+            getline(cin, service);
+            break;
+        case 2:
+            break;
+        case 0:
+            return;
+        default:
+            cout
+                    << "Wrong input\nEnter 1 if you want to create password again\nEnter another digit if you want to stop creating password\n";
+            cin >> ch;
+            cin.ignore();
+            if (ch == 1)
+                Record::addRecord();
+            return;
+    }
+
+    if (service.empty() && login.empty()) {
+        Record record(name, password);
+        Manager::insertInData(category, record);
+    } else if (!service.empty() && !login.empty()) {
+        Record record(name, password, service, login);
+        Manager::insertInData(category, record);
+    } else if (!service.empty()) {
+        Record record(name, password, service, 2);
+        Manager::insertInData(category, record);
+    } else if (!login.empty()) {
+        Record record(name, password, login, 1);
+        Manager::insertInData(category, record);
+    }
 }
 
 string Record::generatePassword() {
@@ -154,6 +230,7 @@ string Record::generatePassword() {
 
     cout << "Enter number of characters 5-20\n";
     cin >> numberChar;
+    cin.ignore();
 
     if (numberChar < 5 || numberChar > 20) {
         cout
@@ -168,6 +245,7 @@ string Record::generatePassword() {
     cout
             << "Enter 1 if you want to have lowercase and uppercase letters\nEnter 2 if you want to have only lowercase letters\nEnter 3 if you want to have only uppercase letters\nEnter 0 if you want to want to stop generating password\n";
     cin >> lowerUpper;
+    cin.ignore();
 
     switch (lowerUpper) {
         case 1:

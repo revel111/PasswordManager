@@ -46,11 +46,25 @@ auto main() -> int {
     Record record2("record2");
     Record record3("record3");
     Record record4("record4");
+    vector<Record> vect;
+    vect.push_back(record1);
+    vect.push_back(record2);
+    vect.push_back(record3);
+    vect.push_back(record4);
 
+    Manager::insertInData("fff", record1);
+    Manager::insertInData("aaa", record2);
+
+    Manager::printData();
     Manager::addCategory();
-    Manager::printCategories();
+    Manager::printData();
+    Manager::insertInData("fff", record2);
+    Manager::printData();
+//    Manager::addCategory();
+//    Manager::printCategories();
+//
+//    Record::addRecord();
 
-    Record::addRecord();
 
     return 0;
 }
