@@ -31,6 +31,8 @@ public:
 
     static void addRecord();
 
+    static void deleteRecord();
+
     static string generatePassword();
 };
 

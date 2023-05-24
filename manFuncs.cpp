@@ -59,24 +59,21 @@ void Manager::addCategory() {
 }
 
 void Manager::deleteCategory() {
-//    cout << "Enter name of category to delete\n";
-//    string name;
-//    getline(cin, name);
-//
-//    if (std::find(categoryVector.begin(), categoryVector.end(), name) != categoryVector.end()) {
-//        categoryVector.erase(std::remove(categoryVector.begin(), categoryVector.end(), name), categoryVector.end());
-//
-//        for (int i = 0; i < passwordVector.size(); i++)
-//            if (passwordVector.at(i).getName() == name)
-//                passwordVector.erase(passwordVector.begin() + i);
-//    } else {
-//        auto ch = -1;
-//        cout
-//                << "Wrong input\nEnter 1 if you want to try to delete category again\nEnter another digit if you want to stop deleting category\n";
-//        cin >> ch;
-//        cin.ignore();
-//        if (ch == 1)
-//            Manager::deleteCategory();
-//        return;
-//    }
+    cout << "Enter name of category to delete\n";
+    string name;
+    getline(cin, name);
+
+    auto it = data.find(name);
+    if (it != data.end()) {
+        data.erase(name);
+    } else {
+        auto ch = -1;
+        cout
+                << "Wrong input\nEnter 1 if you want to try to delete category again\nEnter another digit if you want to stop deleting category\n";
+        cin >> ch;
+        cin.ignore();
+        if (ch == 1)
+            Manager::deleteCategory();
+        return;
+    }
 }

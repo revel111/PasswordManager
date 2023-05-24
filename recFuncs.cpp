@@ -310,3 +310,17 @@ string Record::generatePassword() {
     }
     return password;
 }
+
+void Record::deleteRecord() {
+    cout << "Enter name of password to delete\n";
+    string name;
+    getline(cin, name);
+
+    for (auto &pair: Manager::getData()) {
+        std::vector<Record> &records = pair.second;
+        records.erase(std::remove_if(records.begin(), records.end(),
+                                     [&name](const Record &record) {
+                                         return record.text == name;
+                                     }), records.end());
+    }
+}
