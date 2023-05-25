@@ -3,7 +3,17 @@
 using namespace std;
 
 auto main() -> int {
+//    Manager::printInitials("Password Manager");
 //    bool flag = true;
+//    string path;
+//    string password;
+//    cout << "Enter the password\n";
+//    getline(cin, password);
+//    cout << "Enter the absolute path to your source file\n";
+//    getline(cin, path);
+//    Manager::setPath(path);
+
+
 //    while (flag) {
 //        cout
 //                << "Choose what to do \nEnter 1 if you want to search passwords\nEnter 2 if you want to sort passwords\nEnter 3 if you want to add password\nEnter 4 if you want to edit password\nEnter 5 if you want to delete password\nEnter 6 if you want to add category\nEnter 7 if you want to delete category\n";
@@ -50,7 +60,14 @@ auto main() -> int {
     Manager::insertInData("fff", record1);
     Manager::insertInData("fff", record2);
     Manager::insertInData("aaa", record2);
-    Record::deleteRecord();
+    Manager::insertInData("abbbb", record2);
+    Manager::insertInData("b", record2);
+//    Manager::findRecord();
+//    Manager::printCategories();
+//    Record::addRecord();
+//    Manager::addCategory();
+//    Manager::deleteRecord();
+//    Manager::deleteCategory();
     Manager::printData();
 
     return 0;

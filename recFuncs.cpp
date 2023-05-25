@@ -29,21 +29,34 @@ string Record::getName() {
     return name;
 }
 
+string Record::getText() {
+    return text;
+}
+
+string Record::getService() {
+    return service;
+}
+
+string Record::getLogin() {
+    return login;
+}
+
 std::ostream &operator<<(std::ostream &os, const Record &r) {
-    return os << "Name: " << r.name;
+    return os << "Name: " << r.name << "; Password: " << r.text << "; Service: " << r.service << "; Login: " << r.login
+              << ';';
 }
 
 void Record::addRecord() {
     auto ch = 0;
-    string name = "";
-    string password = "";
-    string category = "";
-    string service = "";
-    string login = "";
+    string name;
+    string password;
+    string category;
+    string service;
+    string login;
 
 
     cout << "Enter the name of a password\n";
-    getline(std::cin, name);
+    getline(cin, name);
 
     cout
             << "Enter 1 if you want to create your own password\nEnter 2 if you want to generate password\nEnter 0 if you want to want to stop creating password\n";
@@ -79,7 +92,7 @@ void Record::addRecord() {
             return;
     }
 
-    if (password == "")
+    if (password.empty())
         return;
 
     auto score = 0;
@@ -130,9 +143,9 @@ void Record::addRecord() {
         case 1:
             Manager::printCategories();
             getline(cin, category);
-            if (Manager::getData().find(category) == Manager::getData().end()) {
+            if (!Manager::getData().contains(category)) {
                 cout
-                        << "Category does not exist\nEnter 1 if you want to try to add category again\nEnter another digit if you want to try to create password again\n";
+                        << "Category does not exist\nEnter 1 if you want to try to create password  again\nEnter another digit if you want to try to create password again\n";
                 cin >> ch;
                 cin.ignore();
                 if (ch == 1)
@@ -141,7 +154,7 @@ void Record::addRecord() {
             }
             break;
         case 2:
-            Manager::addCategory();
+            category = Manager::addCategory(true);
             break;
         case 0:
             return;
@@ -154,6 +167,9 @@ void Record::addRecord() {
                 Record::addRecord();
             return;
     }
+
+    if (category.empty())
+        return;
 
     cout
             << "Enter 1 if you want to add website/service\nEnter 2 if you do not want to add website/service\nEnter 0 if you want to stop creating password\n";
@@ -304,23 +320,9 @@ string Record::generatePassword() {
          << "Enter another digit to use regenerate password\n";
     cin >> numberChar;
     cin.ignore();
-    if (numberChar == 1) {
+    if (numberChar != 1) {
         Record::generatePassword();
         return "";
     }
     return password;
-}
-
-void Record::deleteRecord() {
-    cout << "Enter name of password to delete\n";
-    string name;
-    getline(cin, name);
-
-    for (auto &pair: Manager::getData()) {
-        std::vector<Record> &records = pair.second;
-        records.erase(std::remove_if(records.begin(), records.end(),
-                                     [&name](const Record &record) {
-                                         return record.text == name;
-                                     }), records.end());
-    }
 }
