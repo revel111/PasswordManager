@@ -2,6 +2,18 @@
 
 map<string, vector<Record>> Manager::data;
 
+map<string, vector<Record>> Manager::getData() {
+    return data;
+}
+
+//string Manager::getPath() {
+//    return path;
+//}
+//
+//void Manager::setPath(string str) {
+//    path = std::move(str);
+//}
+
 void Manager::insertInData(const string &key, const Record &record) {
     auto it = data.find(key);
     if (it == data.end()) {
@@ -37,8 +49,6 @@ void Manager::printData() {
 void Manager::addCategory() {
     cout << "Enter name of new category\n";
     string name;
-    getline(cin, name);
-//Manager::data.find(name) == data.end()
     if (!Manager::data.contains(name))
         data.insert(std::make_pair(name, vector<Record>()));
     else {
@@ -77,7 +87,6 @@ void Manager::deleteCategory() {
     cout << "Enter name of category to delete\n";
     string name;
     getline(cin, name);
-    //Manager::data.find(name) != data.end()
     if (Manager::data.contains(name)) {
         data.erase(name);
     } else {
@@ -99,7 +108,7 @@ void Manager::deleteRecord() {
     bool flag = false;
     for (auto &pair: data) {
         vector<Record> &records = pair.second;
-        for (int i = 0; i < records.size(); ++i)
+        for (int i = 0; i < records.size(); i++)
             if (records.at(i).getName() == nameN) {
                 records.erase(records.begin() + i);
                 flag = true;
@@ -118,28 +127,43 @@ void Manager::deleteRecord() {
     }
 }
 
-bool Manager::checkPassword() {
+bool Manager::checkPassword(string input) {
+    char xorKey = 'F';
 
-}
-
-string Manager::writeInFile() {
-    std::ofstream file("check.txt");
-    std::ostream_iterator<string> output_iterator(file, "\n");
-
-
-}
-
-void Manager::sortData() {
-    Manager::printData();
-    cout
-            << "Enter 1 if you want to sort passwords by category and name\nEnter 2 if you want to sort passwords by category and password\nEnter 3 if you want to sort passwords by category and service/website\nEnter 4 if you want to sort passwords by category and login\n";
-    auto ch = -1;
-    cin >> ch;
-    cin.ignore();
-    switch(ch) {
-        case 1:
+    std::ifstream MyFile("password.txt");
+    char check;
+    auto counter = 0;
+    while (MyFile >> std::noskipws >> check) {
+        check = check ^ xorKey;
+        if (check == input[counter])
+            counter++;
+        else
+            return false;
     }
+
+    if (counter > input.size() || counter < input.size())
+        return false;
+    return true;
 }
+
+//string Manager::writeInFile() {
+//    std::ofstream file("check.txt");
+//    std::ostream_iterator<string> output_iterator(file, "\n");
+//
+//
+//}
+
+//void Manager::sortData() {
+//    Manager::printData();
+//    cout
+//            << "Enter 1 if you want to sort passwords by category and name\nEnter 2 if you want to sort passwords by category and password\nEnter 3 if you want to sort passwords by category and service/website\nEnter 4 if you want to sort passwords by category and login\n";
+//    auto ch = -1;
+//    cin >> ch;
+//    cin.ignore();
+//    switch(ch) {
+//        case 1:
+//    }
+//}
 
 void Manager::findRecord() {
     cout
@@ -282,6 +306,67 @@ void Manager::findRecord() {
             if (ch == 1)
                 Manager::findRecord();
             return;
+    }
+}
+
+void Manager::editRecord() {
+    cout << "Enter the name of a password to edit\n";
+    string name;
+    auto ch = -1;
+    Manager::printData();
+    getline(cin, name);
+    for (auto &pair: data) {
+        vector<Record> &vec = pair.second;
+        for (auto &i: vec)
+            if (i.getName() == name) {
+                cout
+                        << "Enter 1 if you want to edit name\nEnter 2 if you want to edit password\nEnter 3 if you want to edit website/service\nEnter 4 if you want to edit login\nEnter 0 if you want to stop editing password\n";
+                cin >> ch;
+                cin.ignore();
+                switch (ch) {
+                    case 1:
+                        cout << "Enter the new name\n";
+                        getline(cin, name);
+                        i.setName(name);
+                        for (auto &pairj: data) {
+                            vector<Record> &vecj = pairj.second;
+                            for (auto &j: vecj)
+                                if (j.getName() == name) {
+                                    cout
+                                            << "Wrong input\nEnter 1 if you want to try to edit password again\nEnter another digit if you want to stop editing password\n";
+                                    cin >> ch;
+                                    cin.ignore();
+                                    if (ch == 1)
+                                        Manager::editRecord();
+                                    return;
+                                }
+                        }
+                        break;
+                    case 2:
+                        cout << "Enter the new password\n";
+                        getline(cin, name);
+                        i.setText(name);
+                        break;
+                    case 3:
+                        cout << "Enter the new website/service\n";
+                        getline(cin, name);
+                        i.setService(name);
+                        break;
+                    case 4:
+                        cout << "Enter the new login\n";
+                        getline(cin, name);
+                        i.setLogin(name);
+                        break;
+                    default:
+                        cout
+                                << "Wrong input\nEnter 1 if you want to try to edit password again\nEnter another digit if you want to stop editing password\n";
+                        cin >> ch;
+                        cin.ignore();
+                        if (ch == 1)
+                            Manager::editRecord();
+                        return;
+                }
+            }
     }
 }
 

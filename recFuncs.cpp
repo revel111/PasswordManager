@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "Header.h"
 
 Record::Record(string name) {
@@ -41,6 +43,22 @@ string Record::getLogin() {
     return login;
 }
 
+void Record::setName(string name) {
+    this->name = std::move(name);
+}
+
+void Record::setText(string text) {
+    this->text = std::move(text);
+}
+
+void Record::setService(string service) {
+    this->service = std::move(service);
+}
+
+void Record::setLogin(string login) {
+    this->login = std::move(login);
+}
+
 std::ostream &operator<<(std::ostream &os, const Record &r) {
     return os << "Name: " << r.name << "; Password: " << r.text << "; Service: " << r.service << "; Login: " << r.login
               << ';';
@@ -54,9 +72,22 @@ void Record::addRecord() {
     string service;
     string login;
 
-
-    cout << "Enter the name of a password\n";
+    cout << "Enter the unique name of a password\n";
     getline(cin, name);
+
+    for (auto &pair: Manager::getData()) {
+        vector<Record> &records = pair.second;
+        for (auto &record: records)
+            if (record.getName() == name) {
+                cout
+                        << "This name already exists\nEnter 1 if you want to create password again\nEnter another digit if you want to stop creating password\n";
+                cin >> ch;
+                cin.ignore();
+                if (ch == 1)
+                    Record::addRecord();
+                return;
+            }
+    }
 
     cout
             << "Enter 1 if you want to create your own password\nEnter 2 if you want to generate password\nEnter 0 if you want to want to stop creating password\n";

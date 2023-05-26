@@ -12,7 +12,7 @@
 #include <chrono>
 #include <fstream>
 #include <iterator>
-//#include <utility> //xzz
+
 
 using std::cout, std::cin, std::string, std::vector, std::map, std::getline;
 
@@ -26,6 +26,11 @@ public:
     string getText();
     string getService();
     string getLogin();
+
+    void setName(string name);
+    void setText(string text);
+    void setService(string service);
+    void setLogin(string login);
 
     Record(string nameN);
 
@@ -46,13 +51,11 @@ class Manager {
     static map<string, vector<Record>> data;
     static string path;
 public:
-    static map<string, vector<Record>> getData() {
-        return data;
-    }
+    static map<string, vector<Record>> getData();
 
-    static void setPath(string str) {
-        path = std::move(str);
-    }
+//    static string getPath();
+//
+//    static void setPath(string str);
 
     static void printCategories();
 
@@ -68,13 +71,15 @@ public:
 
     static void deleteCategory();
 
-    static bool checkPassword();
+    static bool checkPassword(string str);
 
     static string writeInFile();
 
     static void sortData();
 
     static void findRecord();
+
+    static void editRecord();
 
     static void printInitials(const string& str);
 };

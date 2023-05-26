@@ -6,9 +6,10 @@ auto main() -> int {
 //    Manager::printInitials("Password Manager");
 //    bool flag = true;
 //    string path;
-//    string password;
-//    cout << "Enter the password\n";
-//    getline(cin, password);
+    string password;
+    cout << "Enter the password\n";
+    getline(cin, password);
+
 //    cout << "Enter the absolute path to your source file\n";
 //    getline(cin, path);
 //    Manager::setPath(path);
@@ -68,6 +69,8 @@ auto main() -> int {
 //    Manager::addCategory();
 //    Manager::deleteRecord();
 //    Manager::deleteCategory();
+//    Manager::editRecord();
+    Manager::checkPassword("passMan");
     Manager::printData();
 
     return 0;
