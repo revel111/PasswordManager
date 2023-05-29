@@ -69,6 +69,7 @@ auto main() -> int {
 //    Manager::insertInData("aaa", record2);
 //    Manager::insertInData("abbbb", record2);
 //    Manager::insertInData("b", record2);
+
 //    Manager::findRecord();
 //    Manager::printCategories();
 //    Record::addRecord();
