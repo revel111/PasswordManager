@@ -4,36 +4,41 @@ using namespace std;
 
 auto main() -> int {
 //    Manager::start("Password Manager");
-    bool flag = true;
+//    bool flag = true;
 //    while (flag) {
 //        cout
-//                << "Choose what to do \nEnter 1 if you want to search passwords\nEnter 2 if you want to sort passwords\nEnter 3 if you want to add password\nEnter 4 if you want to edit password\nEnter 5 if you want to delete password\nEnter 6 if you want to add category\nEnter 7 if you want to delete category\n";
+//                << "Choose what to do\nEnter 1 if you want to search passwords\nEnter 2 if you want to sort passwords\nEnter 3 if you want to add password\nEnter 4 if you want to edit password\nEnter 5 if you want to delete password\nEnter 6 if you want to add category\nEnter 7 if you want to delete category\nEnter 8 if you want to print all passwords\nEnter 9 if you want to print all categories";
 //        auto ch = -1;
 //        cin >> ch;
-//          cin.ignore();
-//
+//        cin.ignore();
 //
 //        switch (ch) {
 //            case 1:
-//                //
+//                Manager::findRecord();
 //                break;
 //            case 2:
-//                //
+//                Manager::sortData();
 //                break;
 //            case 3:
-//                Record::createPassword();
+//                Record::addRecord();
 //                break;
 //            case 4:
-//                //
+//                Manager::editRecord();
 //                break;
 //            case 5:
-//                //
+//                Manager::deleteRecord();
 //                break;
 //            case 6:
-//                //
+//                Manager::addCategory();
 //                break;
 //            case 7:
-//                //
+//                Manager::deleteCategory();
+//                break;
+//            case 8:
+//                Manager::printData();
+//                break;
+//            case 9:
+//                Manager::printCategories();
 //                break;
 //            case 0:
 //                flag = false;
@@ -43,8 +48,8 @@ auto main() -> int {
 //        }
 //    }
 
-    Record record1("record1", "gggg", "serv", "no");
-    Record record10("record10", "gggg", "serv", "no");
+    Record record1("record 1", "gggg", "serv", "no");
+    Record record10("record 10", "gggg", "serv", "no");
 //    Record record5("record5", "ll");
 //    Record record2("record2");
 //    Record recorda("nigga");
@@ -53,8 +58,8 @@ auto main() -> int {
 //    Record record3("record3");
 //    Record record4("record4");
 //
-    Manager::insertInData("fff", record1);
-    Manager::insertInData("fff", record10);
+//    Manager::insertInData("Enc", record1);
+//    Manager::insertInData("Enc", record10);
 //    Manager::insertInData("a", record5);
 //    Manager::insertInData("fff", record10);
 //    Manager::insertInData("fff", record2);
@@ -72,10 +77,10 @@ auto main() -> int {
 //    Manager::deleteCategory();
 //    Manager::editRecord();
 //    Manager::sortData();
-    Manager::addCategory();
+//    Manager::addCategory();
 
-    Manager::writeInFile();
-//    Manager::readFile();
+//    Manager::writeInFile();
+    Manager::readFile();
 
     Manager::printData();
 //    Manager::findRecord();

@@ -13,7 +13,7 @@ map<string, vector<Record>> Manager::getData() {
 void Manager::insertInData(const string &cat, const Record &record) {
     auto iter = data.find(cat);
     if (iter == data.end()) {
-        vector <Record> newVect;
+        vector<Record> newVect;
         newVect.push_back(record);
         data.insert({cat, newVect});
     } else
@@ -126,13 +126,8 @@ void Manager::checkPassword() {
     string password;
     cout << "Enter the password\n";
     getline(cin, password);
-//    char xorKey = 'F';
     std::ifstream file("check.txt");
 
-//    for (int i = 0; i < input.size(); ++i) {
-//        input[i] = input[i] ^ xorKey;
-//        file << input[i];
-//    }
     bool flag = true;
     char check;
     auto counter = 0;
@@ -164,34 +159,33 @@ void Manager::writeInFile() {
     std::ofstream file("test.txt");//path
 
     for (const auto &pair: data) {
-        string encryptedKey = pair.first;
-        string name;
-        string text;
-        string service;
-        string login;
-
-//        for (char &ch : encryptedKey)
-//            ch ^= 'F';
+        string category;
+        for (const char &ch: pair.first)
+            category += ch ^ 'F';
 
         if (pair.second.empty())
-            file << encryptedKey << '\n';
-
+            file << category << '\n';
         for (const Record &record: pair.second) {
+            string name;
+            string text;
+            string service;
+            string login;
+
             Record encRec = record;
 
-//            for (char &ch : encRec.getName())
-//                ch ^= 'F';
-//            for (char &ch : encRec.getText())
-//                ch ^= 'F';
-//            for (char &ch : encRec.getService())
-//                ch ^= 'F';
-//            for (char &ch : encRec.getLogin())
-//                ch ^= 'F';
+            for (char &ch: encRec.getName())
+                name += ch ^ 'F';
+            for (char &ch: encRec.getText())
+                text += ch ^ 'F';
+            for (char &ch: encRec.getService())
+                service += ch ^ 'F';
+            for (char &ch: encRec.getLogin())
+                login += ch ^ 'F';
 
-            file << encryptedKey << " " << encRec.getName()
-                 << " " << encRec.getText()
-                 << " " << encRec.getService()
-                 << " " << encRec.getLogin() << '\n';
+            file << category << " " << name
+                 << " " << text
+                 << " " << service
+                 << " " << login << '\n';
         }
     }
 
@@ -200,17 +194,42 @@ void Manager::writeInFile() {
 
 void Manager::readFile() {
     std::ifstream file("test.txt", std::ios::in);//path
-    string category;
-    string name;
-    string text;
-    string service;
-    string login;
 
-    while (file >> category >> name >> text >> service >> login) {
-        Record record(name, text, service, login);
-        Manager::insertInData(category, record);
+    string line;
+    while (getline(file, line)) {
+        vector<string> values;
+
+        std::istringstream iss(line);
+        string value;
+        while (iss >> value)
+            values.push_back(value);
+
+        if (values.size() == 5) {
+            string category = values[0];
+            string name = values[1];
+            string text = values[2];
+            string service = values[3];
+            string login = values[4];
+
+            for (char &ch: category)
+                ch ^= 'F';
+            for (char &ch: name)
+                ch ^= 'F';
+            for (char &ch: text)
+                ch ^= 'F';
+            for (char &ch: service)
+                ch ^= 'F';
+            for (char &ch: login)
+                ch ^= 'F';
+
+            Record record(name, text, service, login);
+            Manager::insertInData(category, record);
+        } else {
+            for (char &ch: value)
+                ch ^= 'F';
+            data.insert(std::make_pair(value, vector<Record>()));
+        }
     }
-
     file.close();
 }
 
