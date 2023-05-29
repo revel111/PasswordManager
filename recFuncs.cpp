@@ -73,35 +73,45 @@ bool Record::compareStringsLogin(const Record &first, const Record &second) {
     return first.login < second.login;
 }
 
-std::ostream &operator<<(std::ostream &os, const Record &r) {
-    return os << "Name: " << r.name << "; Password: " << r.text << "; Service: " << r.service << "; Login: " << r.login
-              << ';';
-}
+//std::ostream &operator<<(std::ostream &os, const Record &r) {
+//    return os << r.name
+//              << ";" << r.text
+//              << ";" << r.service
+//              << ";" << r.login;
+//}
 
-std::ostream &operator<<(std::ostream &os, const std::pair<const string, vector<Record>> &pair) {
-    const string &key = pair.first;
-    const vector<Record> &records = pair.second;
+//std::ostream &operator<<(std::ostream &os, const std::pair<const string, vector<Record>> &pair) {
+//    string encryptedKey = pair.first;
+//
+////    for (char &ch: encryptedKey)
+////        ch ^= 'F';
+//
+////    os << encryptedKey << '\n';
+//
+//    for (const Record &record: pair.second) {
+//        Record encRec = record;
+//
+////        for (char &ch: encRec.name)
+////            ch ^= 'F';
+////        for (char &ch: encRec.text)
+////            ch ^= 'F';
+////        for (char &ch: encRec.service)
+////            ch ^= 'F';
+////        for (char &ch: encRec.login)
+////            ch ^= 'F';
+//
+//        os << encryptedKey << ":" << encRec.name
+//           << ";" << encRec.text
+//           << ";" << encRec.service
+//           << ";" << encRec.login << '\n';
+//    }
+//
+//    return os;
+//}
 
-    string encryptedKey = key;
-    for (char &ch: encryptedKey)
-        ch ^= 'F';
-
-    os << "Category: " << encryptedKey << '\n';
-
-    for (const Record &record: records) {
-        Record encryptedRecord = record;
-        for (char &ch: encryptedRecord.name)
-            ch ^= 'F';
-        for (char &ch: encryptedRecord.text)
-            ch ^= 'F';
-        for (char &ch: encryptedRecord.service)
-            ch ^= 'F';
-        for (char &ch: encryptedRecord.login)
-            ch ^= 'F';
-        os << encryptedRecord << '\n';
-    }
-
-    return os;
+void Record::toString() const {
+    cout << "Name: " << name << "; Password: " << text << "; Service: " << service << "; Login: " << login
+         << ';';
 }
 
 void Record::addRecord() {
@@ -116,9 +126,8 @@ void Record::addRecord() {
     cout << "Enter the unique name of a password\n";
     getline(cin, name);
 
-    for (auto &pair: Manager::getData()) {
-        vector<Record> &records = pair.second;
-        for (auto &record: records)
+    for (auto &pair: Manager::getData())
+        for (auto &record: pair.second)
             if (record.getName() == name) {
                 cout
                         << "This name already exists\nEnter 1 if you want to create password again\nEnter another digit if you want to stop creating password\n";
@@ -128,7 +137,6 @@ void Record::addRecord() {
                     Record::addRecord();
                 return;
             }
-    }
 
     cout
             << "Enter 1 if you want to create your own password\nEnter 2 if you want to generate password\nEnter 0 if you want to want to stop creating password\n";
@@ -217,7 +225,7 @@ void Record::addRecord() {
             getline(cin, category);
             if (!Manager::getData().contains(category)) {
                 cout
-                        << "Category does not exist\nEnter 1 if you want to try to create password  again\nEnter another digit if you want to try to create password again\n";
+                        << "Category does not exist\nEnter 1 if you want to try to create password again\nEnter another digit if you want to try to create password again\n";
                 cin >> ch;
                 cin.ignore();
                 if (ch == 1)
@@ -250,10 +258,11 @@ void Record::addRecord() {
 
     switch (ch) {
         case 1:
-            cout << "Enter a website/service. A number of characters should be 5-20\n";
+            cout << "Enter a website/service\n";
             getline(cin, service);
             break;
         case 2:
+            service = "no";
             break;
         case 0:
             return;
@@ -274,10 +283,11 @@ void Record::addRecord() {
 
     switch (ch) {
         case 1:
-            cout << "Enter a login. A number of characters should be 5-20\n";
-            getline(cin, service);
+            cout << "Enter a login\n";
+            getline(cin, login);
             break;
         case 2:
+            login = "no";
             break;
         case 0:
             return;
@@ -291,19 +301,19 @@ void Record::addRecord() {
             return;
     }
 
-    if (service.empty() && login.empty()) {
-        Record record(name, password);
-        Manager::insertInData(category, record);
-    } else if (!service.empty() && !login.empty()) {
+//    if (service.empty() && login.empty()) {
+//        Record record(name, password);
+//        Manager::insertInData(category, record);
+//    } else if (!service.empty() && !login.empty()) {
         Record record(name, password, service, login);
         Manager::insertInData(category, record);
-    } else if (!service.empty()) {
-        Record record(name, password, service, 2);
-        Manager::insertInData(category, record);
-    } else if (!login.empty()) {
-        Record record(name, password, login, 1);
-        Manager::insertInData(category, record);
-    }
+//    } else if (!service.empty()) {
+//        Record record(name, password, service, 2);
+//        Manager::insertInData(category, record);
+//    } else if (!login.empty()) {
+//        Record record(name, password, login, 1);
+//        Manager::insertInData(category, record);
+//    }
 }
 
 string Record::generatePassword() {

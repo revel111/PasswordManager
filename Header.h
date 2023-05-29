@@ -59,6 +59,8 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const std::pair<const string, vector<Record>> &pair);
 
+    void toString() const;
+
     /**
      * Function which allows to create new records based on our preferences.
      * First of all we have to write unique name of our record, then we have option to generate password with the help of function generatePassword or we can create own password.
@@ -89,7 +91,6 @@ public:
 
     static string getPath();
 
-    static void setPath(string str);
     /** Function which prints all categories of records @return void*/
     static void printCategories();
     /** Function which prints all records with its categories @return void*/
@@ -124,6 +125,8 @@ public:
      * @return void
     */
     static void writeInFile();
+
+    static void readFile();
     /**
      * Function which allows to sort records.
      * We have to choose parameter by which we want to sort our records like by name, password, website/service or login
