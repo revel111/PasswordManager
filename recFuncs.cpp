@@ -1,28 +1,10 @@
 #include "Header.h"
 
-Record::Record(string name) {
-    this->name = std::move(name);
-}
-
 Record::Record(string name, string text, string service, string login) {
     this->name = std::move(name);
     this->text = std::move(text);
     this->service = std::move(service);
     this->login = std::move(login);
-}
-
-Record::Record(string name, string text) {
-    this->name = std::move(name);
-    this->text = std::move(text);
-}
-
-Record::Record(string name, string text, string serviceOrLogin, int ch) {
-    this->name = std::move(name);
-    this->text = std::move(text);
-    if (ch == 1)
-        this->login = std::move(serviceOrLogin);
-    else
-        this->service = std::move(serviceOrLogin);
 }
 
 string Record::getName() {
@@ -72,42 +54,6 @@ bool Record::compareStringsService(const Record &first, const Record &second) {
 bool Record::compareStringsLogin(const Record &first, const Record &second) {
     return first.login < second.login;
 }
-
-//std::ostream &operator<<(std::ostream &os, const Record &r) {
-//    return os << r.name
-//              << ";" << r.text
-//              << ";" << r.service
-//              << ";" << r.login;
-//}
-
-//std::ostream &operator<<(std::ostream &os, const std::pair<const string, vector<Record>> &pair) {
-//    string encryptedKey = pair.first;
-//
-////    for (char &ch: encryptedKey)
-////        ch ^= 'F';
-//
-////    os << encryptedKey << '\n';
-//
-//    for (const Record &record: pair.second) {
-//        Record encRec = record;
-//
-////        for (char &ch: encRec.name)
-////            ch ^= 'F';
-////        for (char &ch: encRec.text)
-////            ch ^= 'F';
-////        for (char &ch: encRec.service)
-////            ch ^= 'F';
-////        for (char &ch: encRec.login)
-////            ch ^= 'F';
-//
-//        os << encryptedKey << ":" << encRec.name
-//           << ";" << encRec.text
-//           << ";" << encRec.service
-//           << ";" << encRec.login << '\n';
-//    }
-//
-//    return os;
-//}
 
 void Record::toString() const {
     cout << "Name: " << name << "; Password: " << text << "; Service: " << service << "; Login: " << login
@@ -300,20 +246,8 @@ void Record::addRecord() {
                 Record::addRecord();
             return;
     }
-
-//    if (service.empty() && login.empty()) {
-//        Record record(name, password);
-//        Manager::insertInData(category, record);
-//    } else if (!service.empty() && !login.empty()) {
-        Record record(name, password, service, login);
-        Manager::insertInData(category, record);
-//    } else if (!service.empty()) {
-//        Record record(name, password, service, 2);
-//        Manager::insertInData(category, record);
-//    } else if (!login.empty()) {
-//        Record record(name, password, login, 1);
-//        Manager::insertInData(category, record);
-//    }
+    Record record(name, password, service, login);
+    Manager::insertInData(category, record);
 }
 
 string Record::generatePassword() {

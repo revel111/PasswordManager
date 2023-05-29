@@ -13,7 +13,7 @@ map<string, vector<Record>> Manager::getData() {
 void Manager::insertInData(const string &cat, const Record &record) {
     auto iter = data.find(cat);
     if (iter == data.end()) {
-        vector<Record> newVect;
+        vector <Record> newVect;
         newVect.push_back(record);
         data.insert({cat, newVect});
     } else
@@ -163,7 +163,7 @@ void Manager::checkPassword() {
 void Manager::writeInFile() {
     std::ofstream file("test.txt");//path
 
-    for (const auto &pair : data) {
+    for (const auto &pair: data) {
         string encryptedKey = pair.first;
         string name;
         string text;
@@ -173,10 +173,10 @@ void Manager::writeInFile() {
 //        for (char &ch : encryptedKey)
 //            ch ^= 'F';
 
-        if(pair.second.empty())
+        if (pair.second.empty())
             file << encryptedKey << '\n';
 
-        for (const Record &record : pair.second) {
+        for (const Record &record: pair.second) {
             Record encRec = record;
 
 //            for (char &ch : encRec.getName())
@@ -206,9 +206,9 @@ void Manager::readFile() {
     string service;
     string login;
 
-    while(file >> category >> name >> text >> service >> login) {
-        Record record(name,text,service,login);
-        Manager::insertInData(category,record);
+    while (file >> category >> name >> text >> service >> login) {
+        Record record(name, text, service, login);
+        Manager::insertInData(category, record);
     }
 
     file.close();

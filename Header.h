@@ -14,6 +14,7 @@
 #include <iterator>
 
 using std::cout, std::cin, std::string, std::vector, std::map, std::getline;
+
 /// The class which represent password/record in our files
 class Record {
     string name;
@@ -22,44 +23,46 @@ class Record {
     string login;
 public:
     /** Getter for name because of private field @return string*/
-    string getName();
-    /** Getter for text because of private field @return string*/
-    string getText();
-    /** Getter for service because of private field @return string*/
-    string getService();
-    /** Getter for login because of private field @return string*/
-    string getLogin();
-    /** Setter for name because of private field @return string*/
-    void setName(string name);
-    /** Setter for text because of private field */
-    void setText(string text);
-    /** Setter for service because of private field */
-    void setService(string service);
-    /** Setter for login because of private field */
-    void setLogin(string login);
+    auto getName() -> string;
 
-    Record(string nameN);
+    /** Getter for text because of private field @return string*/
+    auto getText() -> string;
+
+    /** Getter for service because of private field @return string*/
+    auto getService() -> string;
+
+    /** Getter for login because of private field @return string*/
+    auto getLogin() -> string;
+
+    /** Setter for name because of private field @return string*/
+    auto setName(string name) -> void;
+
+    /** Setter for text because of private field */
+    auto setText(string text) -> void;
+
+    /** Setter for service because of private field */
+    auto setService(string service) -> void;
+
+    /** Setter for login because of private field */
+    auto setLogin(string login) -> void;
 
     /** Constructor when we have both service and login */
     Record(string nameN, string textN, string serviceN, string loginN);
-    /** Constructor when we have only name and password itself */
-    Record(string nameN, string textN);
-    /** Constructor when we either service or login */
-    Record(string nameN, string textN, string serviceOrLogin, int ch);
+
     /** Comparator for sorting records by their names */
-    static bool compareStringsName(const Record &first, const Record &second);
+    static auto compareStringsName(const Record &first, const Record &second) -> bool;
+
     /** Comparator for sorting records by their passwords */
-    static bool compareStringsText(const Record &first, const Record &second);
+    static auto compareStringsText(const Record &first, const Record &second) -> bool;
+
     /** Comparator for sorting records by their services */
-    static bool compareStringsService(const Record &first, const Record &second);
+    static auto compareStringsService(const Record &first, const Record &second) -> bool;
+
     /** Comparator for sorting records by their logins */
-    static bool compareStringsLogin(const Record &first, const Record &second);
-    /** Overloaded operator for printing record */
-    friend std::ostream &operator<<(std::ostream &, const Record &);
+    static auto compareStringsLogin(const Record &first, const Record &second) -> bool;
 
-    friend std::ostream &operator<<(std::ostream &os, const std::pair<const string, vector<Record>> &pair);
-
-    void toString() const;
+    /** Function for printing record */
+    auto toString() const -> void;
 
     /**
      * Function which allows to create new records based on our preferences.
@@ -69,7 +72,8 @@ public:
      * @see generatePassword();
      * @see Manager::addCategory(bool f);
      */
-    static void addRecord();
+    static auto addRecord() -> void;
+
     /**
      * Function which allows to generate new password based on our preferences.
      * We have many ways to customize it such as length of a password (5-20 characters), lowercase or uppercase letters and special symbols. After generation we ask user
@@ -78,7 +82,7 @@ public:
      * @see addRecord();
      * @return string (new generated password)
      */
-    static string generatePassword();
+    static auto generatePassword() -> string;
 };
 
 /// The class which represent kind of storage for our data, so it has many functions which allows to manipulate with our records
@@ -87,32 +91,38 @@ class Manager {
     static string path;
 public:
     /** Getter for data of our program because of private field @return map with all data*/
-    static map<string, vector<Record>> getData();
+    static auto getData() -> map<string, vector<Record>>;
 
-    static string getPath();
+    static auto getPath() -> void;
 
     /** Function which prints all categories of records @return void*/
-    static void printCategories();
+    static auto printCategories() -> void;
+
     /** Function which prints all records with its categories @return void*/
-    static void printData();
+    static auto printData() -> void;
+
     /** Function which allows to delete record by providing its name @return void*/
-    static void deleteRecord();
-    /**
-     * Function which allow to insert category without records @return void
-     */
-    static void insertInData(const string &key, const Record &record);
+    static auto deleteRecord() -> void;
+
+    /** Function which allows to insert records and category @return void  */
+    static auto insertInData(const string &key, const Record &record) -> void;
+
     /** Function which allows to create new category by providing its name @return void*/
-    static void addCategory();
+    static auto addCategory() -> void;
+
     /** Function which allows to create new category by providing its name and it also returns string because I use this function when user create new record @return string (new category)*/
-    static string addCategory(bool f);
+    static auto addCategory(bool f) -> string;
+
     /**
      * Function which allows to delete category by providing its name.
      * It is worth to mention that with category we delete all records from this category
      * @return void
     */
-    static void deleteCategory();
+    static auto deleteCategory() -> void;
+
     /** Function which checks if user enters correct administrator's password @return void*/
-    static void checkPassword();
+    static auto checkPassword() -> void;
+
     /** Function which saves and encrypt using XOR encryption edited map<string, vector<Record>> data.
      * map<string, vector<Record>> data can be modified during operations such as adding, deleting and sorting
      * @see Record::addRecord();
@@ -124,9 +134,10 @@ public:
      * @see sortData();
      * @return void
     */
-    static void writeInFile();
+    static auto writeInFile() -> void;
 
-    static void readFile();
+    static auto readFile() -> void;
+
     /**
      * Function which allows to sort records.
      * We have to choose parameter by which we want to sort our records like by name, password, website/service or login
@@ -136,24 +147,27 @@ public:
      * @see Record::compareStringsLogin(const Record &first, const Record &second);
      * @return void
     */
-    static void sortData();
+    static auto sortData() -> void;
+
     /**
      * Function which allows to find record by parameters such as category, name, password, service/website or login,
      * After finding matched record, function prints it
      * @return void
      */
-    static void findRecord();
+    static auto findRecord() -> void;
+
     /**
      * Function which allows to edit records.
      * We have to enter a name of a records we want to delete and then we have many options how exactly we want to edit record like name, password, website/service or login
      * @return void
      */
-    static void editRecord();
+    static auto editRecord() -> void;
+
     /**
      * Function which starts our program.
      * It asks for administrator's password, for specifying source file of records and it has little presentation of the name of this project
      * @see checkPassword();
      * @return void
      */
-    static void start(const string &str);
+    static auto start(const string &str) -> void;
 };
