@@ -1,5 +1,3 @@
-#include <utility>
-
 #include "Header.h"
 
 Record::Record(string name) {
@@ -59,9 +57,51 @@ void Record::setLogin(string login) {
     this->login = std::move(login);
 }
 
+bool Record::compareStringsName(const Record &first, const Record &second) {
+    return first.name < second.name;
+}
+
+bool Record::compareStringsText(const Record &first, const Record &second) {
+    return first.text < second.text;
+}
+
+bool Record::compareStringsService(const Record &first, const Record &second) {
+    return first.service < second.service;
+}
+
+bool Record::compareStringsLogin(const Record &first, const Record &second) {
+    return first.login < second.login;
+}
+
 std::ostream &operator<<(std::ostream &os, const Record &r) {
     return os << "Name: " << r.name << "; Password: " << r.text << "; Service: " << r.service << "; Login: " << r.login
               << ';';
+}
+
+std::ostream &operator<<(std::ostream &os, const std::pair<const string, vector<Record>> &pair) {
+    const string &key = pair.first;
+    const vector<Record> &records = pair.second;
+
+    string encryptedKey = key;
+    for (char &ch: encryptedKey)
+        ch ^= 'F';
+
+    os << "Category: " << encryptedKey << '\n';
+
+    for (const Record &record: records) {
+        Record encryptedRecord = record;
+        for (char &ch: encryptedRecord.name)
+            ch ^= 'F';
+        for (char &ch: encryptedRecord.text)
+            ch ^= 'F';
+        for (char &ch: encryptedRecord.service)
+            ch ^= 'F';
+        for (char &ch: encryptedRecord.login)
+            ch ^= 'F';
+        os << encryptedRecord << '\n';
+    }
+
+    return os;
 }
 
 void Record::addRecord() {
@@ -72,6 +112,7 @@ void Record::addRecord() {
     string service;
     string login;
 
+    Manager::printData();
     cout << "Enter the unique name of a password\n";
     getline(cin, name);
 

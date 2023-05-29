@@ -17,7 +17,7 @@ map<string, vector<Record>> Manager::getData() {
 void Manager::insertInData(const string &key, const Record &record) {
     auto it = data.find(key);
     if (it == data.end()) {
-        std::vector<Record> newVector;
+        vector<Record> newVector;
         newVector.push_back(record);
         data.insert({key, newVector});
     } else
@@ -49,6 +49,8 @@ void Manager::printData() {
 void Manager::addCategory() {
     cout << "Enter name of new category\n";
     string name;
+    getline(cin, name);
+
     if (!Manager::data.contains(name))
         data.insert(std::make_pair(name, vector<Record>()));
     else {
@@ -103,13 +105,13 @@ void Manager::deleteCategory() {
 
 void Manager::deleteRecord() {
     cout << "Enter name of password to delete\n";
-    string nameN;
-    getline(cin, nameN);
+    string name;
+    getline(cin, name);
     bool flag = false;
     for (auto &pair: data) {
         vector<Record> &records = pair.second;
         for (int i = 0; i < records.size(); i++)
-            if (records.at(i).getName() == nameN) {
+            if (records.at(i).getName() == name) {
                 records.erase(records.begin() + i);
                 flag = true;
             }
@@ -127,43 +129,98 @@ void Manager::deleteRecord() {
     }
 }
 
-bool Manager::checkPassword(string input) {
-    char xorKey = 'F';
+void Manager::checkPassword() {
+    string password;
+    cout << "Enter the password\n";
+    getline(cin, password);
+//    char xorKey = 'F';
+    std::ifstream file("check.txt");
 
-    std::ifstream MyFile("password.txt");
+//    for (int i = 0; i < input.size(); ++i) {
+//        input[i] = input[i] ^ xorKey;
+//        file << input[i];
+//    }
+    bool flag = true;
     char check;
     auto counter = 0;
-    while (MyFile >> std::noskipws >> check) {
-        check = check ^ xorKey;
-        if (check == input[counter])
+    while (file >> std::noskipws >> check) {
+        check = check ^ 'F';
+        if (check == password[counter])
             counter++;
         else
-            return false;
+            flag = false;
     }
+    file.close();
 
-    if (counter > input.size() || counter < input.size())
-        return false;
-    return true;
+    if (counter > password.size() || counter < password.size())
+        flag = false;
+
+    if (!flag) {
+        auto ch = 0;
+        cout
+                << "Wrong input\nEnter 1 if you want to try to enter program again\nEnter another digit if you do not want to enter program\n";
+        cin >> ch;
+        cin.ignore();
+        if (ch == 1)
+            Manager::checkPassword();
+        return;
+    }
 }
 
-//string Manager::writeInFile() {
-//    std::ofstream file("check.txt");
-//    std::ostream_iterator<string> output_iterator(file, "\n");
-//
-//
-//}
+void Manager::writeInFile() {
+    std::ofstream file("test.txt");
 
-//void Manager::sortData() {
-//    Manager::printData();
-//    cout
-//            << "Enter 1 if you want to sort passwords by category and name\nEnter 2 if you want to sort passwords by category and password\nEnter 3 if you want to sort passwords by category and service/website\nEnter 4 if you want to sort passwords by category and login\n";
-//    auto ch = -1;
-//    cin >> ch;
-//    cin.ignore();
-//    switch(ch) {
-//        case 1:
-//    }
-//}
+    for (const auto &pair: data) {
+        file << pair;
+    }
+
+    file.close();
+}
+
+void Manager::sortData() {
+    Manager::printData();
+    cout
+            << "Enter 1 if you want to sort passwords by category and name\nEnter 2 if you want to sort passwords by category and password\nEnter 3 if you want to sort passwords by category and service/website\nEnter 4 if you want to sort passwords by category and login\nEnter 0 if you want to stop sorting passwords\n";
+    auto ch = -1;
+    cin >> ch;
+    cin.ignore();
+    switch (ch) {
+        case 1:
+            for (auto &pair: data) {
+                vector<Record> &vec = pair.second;
+                std::sort(vec.begin(), vec.end(), Record::compareStringsName);
+            }
+            break;
+        case 2:
+            for (auto &pair: data) {
+                vector<Record> &vec = pair.second;
+                std::sort(vec.begin(), vec.end(), Record::compareStringsText);
+            }
+            break;
+        case 3:
+            for (auto &pair: data) {
+                vector<Record> &vec = pair.second;
+                std::sort(vec.begin(), vec.end(), Record::compareStringsService);
+            }
+            break;
+        case 4:
+            for (auto &pair: data) {
+                vector<Record> &vec = pair.second;
+                std::sort(vec.begin(), vec.end(), Record::compareStringsLogin);
+            }
+            break;
+        case 0:
+            return;
+        default:
+            cout
+                    << "Wrong input\nEnter 1 if you want to try to sort passwords again\nEnter another digit if you want to stop sorting passwords\n";
+            cin >> ch;
+            cin.ignore();
+            if (ch == 1)
+                Manager::sortData();
+            return;
+    }
+}
 
 void Manager::findRecord() {
     cout
@@ -172,7 +229,7 @@ void Manager::findRecord() {
     cin >> ch;
     cin.ignore();
     string choice;
-    bool f = false;
+    bool flag = false;
     switch (ch) {
         case 1:
             cout << "Enter a category\n";
@@ -209,12 +266,12 @@ void Manager::findRecord() {
                     if (vec.at(i).getName() == choice) {
                         cout << "Category: " << pair.first << "; Passwords: \n";
                         cout << vec[i];
-                        f = true;
+                        flag = true;
                         if (i != vec.size() - 1)
                             cout << '\n';
                     }
             }
-            if (!f) {
+            if (!flag) {
                 cout
                         << "Wrong input\nEnter 1 if you want to try to find password again\nEnter another digit if you want to stop finding password\n";
                 cin >> ch;
@@ -225,7 +282,7 @@ void Manager::findRecord() {
             }
             break;
         case 3:
-            cout << "Enter a text\n";
+            cout << "Enter a password\n";
             getline(cin, choice);
             for (auto &pair: data) {
                 vector<Record> &vec = pair.second;
@@ -233,12 +290,12 @@ void Manager::findRecord() {
                     if (vec.at(i).getText() == choice) {
                         cout << "Category: " << pair.first << "; Passwords: \n";
                         cout << vec[i];
-                        f = true;
+                        flag = true;
                         if (i != vec.size() - 1)
                             cout << '\n';
                     }
             }
-            if (!f) {
+            if (!flag) {
                 cout
                         << "Wrong input\nEnter 1 if you want to try to find password again\nEnter another digit if you want to stop finding password\n";
                 cin >> ch;
@@ -257,12 +314,12 @@ void Manager::findRecord() {
                     if (vec.at(i).getService() == choice) {
                         cout << "Category: " << pair.first << "; Passwords: \n";
                         cout << vec[i];
-                        f = true;
+                        flag = true;
                         if (i != vec.size() - 1)
                             cout << '\n';
                     }
             }
-            if (!f) {
+            if (!flag) {
                 cout
                         << "Wrong input\nEnter 1 if you want to try to find password again\nEnter another digit if you want to stop finding password\n";
                 cin >> ch;
@@ -281,12 +338,12 @@ void Manager::findRecord() {
                     if (vec.at(i).getLogin() == choice) {
                         cout << "Category: " << pair.first << "; Passwords: \n";
                         cout << vec[i];
-                        f = true;
+                        flag = true;
                         if (i != vec.size() - 1)
                             cout << '\n';
                     }
             }
-            if (!f) {
+            if (!flag) {
                 cout
                         << "Wrong input\nEnter 1 if you want to try to find password again\nEnter another digit if you want to stop finding password\n";
                 cin >> ch;
@@ -366,16 +423,24 @@ void Manager::editRecord() {
                             Manager::editRecord();
                         return;
                 }
+            } else {
+                cout
+                        << "Wrong input\nEnter 1 if you want to try to edit password again\nEnter another digit if you want to stop editing password\n";
+                cin >> ch;
+                cin.ignore();
+                if (ch == 1)
+                    Manager::editRecord();
+                return;
             }
     }
 }
 
-void Manager::printInitials(const string &str) {
+void Manager::start(const string &str) {
     system("Color 0A");
     cout << '\t';
     for (char i: str) {
         cout << ' ' << i;
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
     cout << '\n';
     system("Color 7");

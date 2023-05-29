@@ -3,13 +3,10 @@
 using namespace std;
 
 auto main() -> int {
-//    Manager::printInitials("Password Manager");
+//    Manager::start("Password Manager");
 //    bool flag = true;
 //    string path;
-    string password;
-    cout << "Enter the password\n";
-    getline(cin, password);
-
+//    Manager::checkPassword();
 //    cout << "Enter the absolute path to your source file\n";
 //    getline(cin, path);
 //    Manager::setPath(path);
@@ -55,11 +52,17 @@ auto main() -> int {
 
     Record record1("record1", "gggg", "fff", 1);
     Record record2("record2");
+    Record recorda("nigga");
+    Record recordb("tickets");
+    Record recordc("baller");
     Record record3("record3");
     Record record4("record4");
 
     Manager::insertInData("fff", record1);
     Manager::insertInData("fff", record2);
+    Manager::insertInData("aaa", recorda);
+    Manager::insertInData("aaa", recordb);
+    Manager::insertInData("aaa", recordc);
     Manager::insertInData("aaa", record2);
     Manager::insertInData("abbbb", record2);
     Manager::insertInData("b", record2);
@@ -70,8 +73,9 @@ auto main() -> int {
 //    Manager::deleteRecord();
 //    Manager::deleteCategory();
 //    Manager::editRecord();
-    Manager::checkPassword("passMan");
-    Manager::printData();
-
+//    Manager::sortData();
+//    Manager::addCategory();
+//    Manager::printData();
+    Manager::writeInFile();
     return 0;
 }
