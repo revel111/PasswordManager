@@ -7,7 +7,7 @@ auto main() -> int {
 //    bool flag = true;
 //    while (flag) {
 //        cout
-//                << "Choose what to do\nEnter 1 if you want to search passwords\nEnter 2 if you want to sort passwords\nEnter 3 if you want to add password\nEnter 4 if you want to edit password\nEnter 5 if you want to delete password\nEnter 6 if you want to add category\nEnter 7 if you want to delete category\nEnter 8 if you want to print all passwords\nEnter 9 if you want to print all categories";
+//                << "Choose what to do\nEnter 1 if you want to search passwords\nEnter 2 if you want to sort passwords\nEnter 3 if you want to add password\nEnter 4 if you want to edit password\nEnter 5 if you want to delete password\nEnter 6 if you want to add category\nEnter 7 if you want to delete category\nEnter 8 if you want to print all passwords\nEnter 9 if you want to print all categories\nEnter 0 if you want to exit\n";
 //        auto ch = -1;
 //        cin >> ch;
 //        cin.ignore();
@@ -81,9 +81,9 @@ auto main() -> int {
 //    Manager::addCategory();
 
 //    Manager::writeInFile();
-    Manager::readFile();
+//    Manager::readFile();
 
-    Manager::printData();
+//    Manager::printData();
 //    Manager::findRecord();
     return 0;
 }

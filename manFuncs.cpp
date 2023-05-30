@@ -1,6 +1,7 @@
 #include "Header.h"
 
 map<string, vector<Record>> Manager::data;
+string Manager::path;
 
 map<string, vector<Record>> Manager::getData() {
     return data;
@@ -46,8 +47,10 @@ void Manager::addCategory() {
     string name;
     getline(cin, name);
 
-    if (!Manager::data.contains(name))
+    if (!Manager::data.contains(name)) {
         data.insert(std::make_pair(name, vector<Record>()));
+        //    Manager::writeInFile();
+    }
     else {
         auto ch = -1;
         cout
@@ -86,6 +89,7 @@ void Manager::deleteCategory() {
     getline(cin, name);
     if (Manager::data.contains(name)) {
         data.erase(name);
+        //    Manager::writeInFile();
     } else {
         auto ch = -1;
         cout
@@ -96,6 +100,7 @@ void Manager::deleteCategory() {
             Manager::deleteCategory();
         return;
     }
+
 }
 
 void Manager::deleteRecord() {
@@ -108,6 +113,8 @@ void Manager::deleteRecord() {
             if (pair.second.at(i).getName() == name) {
                 pair.second.erase(pair.second.begin() + i);
                 flag = true;
+                // break;
+                //    Manager::writeInFile();
             }
 
     if (!flag) {
@@ -268,6 +275,7 @@ void Manager::sortData() {
                 Manager::sortData();
             return;
     }
+    //    Manager::writeInFile();
 }
 
 void Manager::findRecord() {
@@ -458,6 +466,7 @@ void Manager::editRecord() {
                             Manager::editRecord();
                         return;
                 }
+                //    Manager::writeInFile();
             } else {
                 cout
                         << "Wrong input\nEnter 1 if you want to try to edit password again\nEnter another digit if you want to stop editing password\n";
@@ -483,5 +492,5 @@ void Manager::start(const string &str) {
     string pathN;
     cout << "Enter the absolute path to your source file\n";
     getline(cin, pathN);
-//    path = pathN;
+    path = pathN;
 }

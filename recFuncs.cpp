@@ -248,6 +248,7 @@ void Record::addRecord() {
     }
     Record record(name, password, service, login);
     Manager::insertInData(category, record);
+//    Manager::writeInFile();
 }
 
 string Record::generatePassword() {
