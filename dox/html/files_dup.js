@@ -4,5 +4,5 @@ var files_dup =
     [ "Header.h", "_header_8h.html", "_header_8h" ],
     [ "main.cpp", "main_8cpp.html", "main_8cpp" ],
     [ "manFuncs.cpp", "man_funcs_8cpp.html", null ],
-    [ "recFuncs.cpp", "rec_funcs_8cpp.html", "rec_funcs_8cpp" ]
+    [ "recFuncs.cpp", "rec_funcs_8cpp.html", null ]
 ];

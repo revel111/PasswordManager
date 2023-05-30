@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['addcategory_0',['addCategory',['../class_manager.html#ad54c0f144811f275ddac33bcc43a2fe2',1,'Manager::addCategory()'],['../class_manager.html#a48f7d12f55ba92093f62f40a86fec51a',1,'Manager::addCategory(bool f)']]],
-  ['addrecord_1',['addRecord',['../class_record.html#a36d88daa59849d40fe47de45e260f98c',1,'Record']]]
+  ['addcategory_0',['addCategory',['../class_manager.html#a4458233b616207f43b817f35e258d098',1,'Manager::addCategory() -&gt; void'],['../class_manager.html#a55869f67d9cc78ad836f43d895299c47',1,'Manager::addCategory(bool f) -&gt; string']]],
+  ['addrecord_1',['addRecord',['../class_record.html#a8276686eb7ce8d0fa0912ede2dff9a13',1,'Record']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['insertindata_0',['insertInData',['../class_manager.html#abe1da847e80221318e5f9738bffe5434',1,'Manager']]]
+  ['insertindata_0',['insertInData',['../class_manager.html#a7da8e721cd79b19a710c0fcd8b18722a',1,'Manager']]]
 ];

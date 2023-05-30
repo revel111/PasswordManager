@@ -50,8 +50,7 @@ void Manager::addCategory() {
     if (!Manager::data.contains(name)) {
         data.insert(std::make_pair(name, vector<Record>()));
         //    Manager::writeInFile();
-    }
-    else {
+    } else {
         auto ch = -1;
         cout
                 << "Wrong input\nEnter 1 if you want to try to add category again\nEnter another digit if you want to stop adding category\n";
@@ -202,6 +201,17 @@ void Manager::writeInFile() {
 void Manager::readFile() {
     std::ifstream file("test.txt", std::ios::in);//path
 
+    if (!file.is_open()) {
+        cout << "You provided wrong path\nEnter 1 if you want to enter program again\nEnter 0 if you want to quit\n";
+        int ch = -1;
+        cin >> ch;
+        cin.ignore();
+        if (ch == 1)
+            start();
+        else
+            exit(0);
+        return;
+    }
     string line;
     while (getline(file, line)) {
         vector<string> values;
@@ -217,6 +227,26 @@ void Manager::readFile() {
             string text = values[2];
             string service = values[3];
             string login = values[4];
+
+            for (char &ch: category)
+                ch ^= 'F';
+            for (char &ch: name)
+                ch ^= 'F';
+            for (char &ch: text)
+                ch ^= 'F';
+            for (char &ch: service)
+                ch ^= 'F';
+            for (char &ch: login)
+                ch ^= 'F';
+
+            Record record(name, text, service, login);
+            Manager::insertInData(category, record);
+        } else if (values.size() == 6) {
+            string category = values[1];
+            string name = values[2];
+            string text = values[3];
+            string service = values[4];
+            string login = values[5];
 
             for (char &ch: category)
                 ch ^= 'F';
@@ -478,11 +508,11 @@ void Manager::editRecord() {
             }
 }
 
-void Manager::start(const string &str) {
+void Manager::start() {
     checkPassword(); //passMan is the password
     system("Color 0A");
     cout << '\t';
-    for (char i: str) {
+    for (char i: "Password Manager") {
         cout << ' ' << i;
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
@@ -493,4 +523,5 @@ void Manager::start(const string &str) {
     cout << "Enter the absolute path to your source file\n";
     getline(cin, pathN);
     path = pathN;
+    readFile();
 }

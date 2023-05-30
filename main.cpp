@@ -3,7 +3,7 @@
 using namespace std;
 
 auto main() -> int {
-//    Manager::start("Password Manager");
+    Manager::start();
 //    bool flag = true;
 //    while (flag) {
 //        cout
@@ -48,7 +48,7 @@ auto main() -> int {
 //        }
 //    }
 
-    Record record1("record 1", "gggg", "serv", "no");
+    Record record1("record 1", "gggg", "se  rv", "no");
     Record record10("record 10", "gggg", "serv", "no");
 //    Record record5("record5", "ll");
 //    Record record2("record2");
@@ -82,8 +82,12 @@ auto main() -> int {
 
 //    Manager::writeInFile();
 //    Manager::readFile();
-
-//    Manager::printData();
+    Manager::printData();
 //    Manager::findRecord();
+
+//    std::time_t end_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+//
+//    std::cout << "finished computation at " << std::ctime(&end_time)
+//              << std::endl;
     return 0;
 }

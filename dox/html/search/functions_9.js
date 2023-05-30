@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['printcategories_0',['printCategories',['../class_manager.html#af3640e9e396f4962b6b5151778533857',1,'Manager']]],
-  ['printdata_1',['printData',['../class_manager.html#aa992e1c502810b0a85de703b9924a6fb',1,'Manager']]]
+  ['readfile_0',['readFile',['../class_manager.html#a0e08d105e5b1bdaf8c6fb66b89ce3779',1,'Manager']]],
+  ['record_1',['Record',['../class_record.html#a9e602ca3c812eaa9f68db9497fbcf12b',1,'Record']]]
 ];

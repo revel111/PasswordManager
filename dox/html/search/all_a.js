@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['operator_3c_3c_0',['operator&lt;&lt;',['../class_record.html#a3b6daa86b52032ae8d410c376b3f3c1b',1,'Record::operator&lt;&lt;'],['../class_record.html#abd5829d8a14460517224c05b627f6b14',1,'Record::operator&lt;&lt;'],['../rec_funcs_8cpp.html#a011b69305e5d97f2c741fda496a0d4d3',1,'operator&lt;&lt;(std::ostream &amp;os, const Record &amp;r):&#160;recFuncs.cpp'],['../rec_funcs_8cpp.html#abd5829d8a14460517224c05b627f6b14',1,'operator&lt;&lt;(std::ostream &amp;os, const std::pair&lt; const string, vector&lt; Record &gt; &gt; &amp;pair):&#160;recFuncs.cpp']]]
+  ['platform_5fid_0',['PLATFORM_ID',['../_c_make_c_compiler_id_8c.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID:&#160;CMakeCCompilerId.c'],['../_c_make_c_x_x_compiler_id_8cpp.html#adbc5372f40838899018fadbc89bd588b',1,'PLATFORM_ID:&#160;CMakeCXXCompilerId.cpp']]],
+  ['printcategories_1',['printCategories',['../class_manager.html#ab00e483667d2d264c4bc384a7c31a8dc',1,'Manager']]],
+  ['printdata_2',['printData',['../class_manager.html#aaf4ef3b78c79496495e113065713eb5f',1,'Manager']]]
 ];
