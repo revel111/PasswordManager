@@ -92,7 +92,6 @@ void Manager::deleteRecord() {
             if (pair.second.at(i).getName() == name) {
                 pair.second.erase(pair.second.begin() + i);
                 flag = true;
-                Manager::writeInFile();
                 break;
             }
 
@@ -106,28 +105,25 @@ void Manager::deleteRecord() {
             Manager::deleteRecord();
         return;
     }
+    Manager::writeInFile();
 }
 
 void Manager::checkPassword() {
     string password;
     cout << "Enter the password\n";
-    getline(cin, password);
-    std::ifstream file("check.txt");
+    getline(cin, password); //passMan is the password
 
     bool flag = true;
-    char check;
-    auto counter = 0;
-    while (file >> std::noskipws >> check) {
-        check = check ^ 'F';
-        if (check == password[counter])
-            counter++;
-        else
+    string checkStr = "6'55\u000B'(";
+
+    if (checkStr.size() != password.size())
+        flag = false;
+
+    for (int i = 0; i < password.size(); i++) {
+        checkStr[i] = checkStr[i] ^ 'F';
+        if (checkStr[i] != password[i])
             flag = false;
     }
-    file.close();
-
-    if (counter > password.size() || counter < password.size())
-        flag = false;
 
     if (!flag) {
         auto ch = 0;
@@ -142,7 +138,7 @@ void Manager::checkPassword() {
 }
 
 void Manager::writeInFile() {
-    std::ofstream file(path);//path
+    std::ofstream file(path);
 
     for (const auto &pair: data) {
         string category;
@@ -179,7 +175,7 @@ void Manager::writeInFile() {
 }
 
 void Manager::readFile() {
-    std::ifstream file(path, std::ios::in);//path
+    std::ifstream file(path, std::ios::in);
 
     if (!file.is_open()) {
         cout
