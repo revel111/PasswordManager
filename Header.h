@@ -93,8 +93,6 @@ public:
     /** Getter for data of our program because of private field. @return map with all data*/
     static auto getData() -> map<string, vector<Record>>;
 
-    static auto getPath() -> void;
-
     /** Function which prints all categories of records. @return void*/
     static auto printCategories() -> void;
 
@@ -111,13 +109,6 @@ public:
     static auto addCategory() -> void;
 
     /**
-     * Function which allows to create new category by providing its name and it also returns string because
-     * I use this function when user create new record.
-     * @return string (new category)
-     * */
-    static auto addCategory(bool f) -> string;
-
-    /**
      * Function which allows to delete category by providing its name.
      * It is worth to mention that with category we delete all records from this category.
      * @return void
@@ -132,7 +123,6 @@ public:
      * map<string, vector<Record>> data can be modified during operations such as adding, deleting and sorting.
      * @see Record::addRecord();
      * @see addCategory();
-     * @see addCategory(bool f);
      * @see deleteRecord();
      * @see deleteCategory();
      * @see editRecord();

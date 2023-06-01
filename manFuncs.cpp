@@ -60,26 +60,6 @@ void Manager::addCategory() {
     }
 }
 
-string Manager::addCategory(bool f) {
-    cout << "Enter name of new category\n";
-    string name;
-    getline(cin, name);
-
-    if (!Manager::data.contains(name))
-        data.insert(std::make_pair(name, vector<Record>()));
-    else {
-        auto ch = -1;
-        cout
-                << "Wrong input\nEnter 1 if you want to try to add category again\nEnter another digit if you want to stop adding category\n";
-        cin >> ch;
-        cin.ignore();
-        if (ch == 1)
-            Manager::addCategory();
-        return "";
-    }
-    return name;
-}
-
 void Manager::deleteCategory() {
     printCategories();
     cout << "Enter name of category to delete\n";
