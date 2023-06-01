@@ -7,10 +7,6 @@ map<string, vector<Record>> Manager::getData() {
     return data;
 }
 
-//string Manager::getPath() {
-//    return path;
-//}
-
 void Manager::insertInData(const string &cat, const Record &record) {
     auto iter = data.find(cat);
     if (iter == data.end()) {
@@ -27,6 +23,7 @@ void Manager::printCategories() {
         const string &cat = i.first;
         cout << cat << '\n';
     }
+    cout << '\n';
 }
 
 void Manager::printData() {
@@ -40,6 +37,7 @@ void Manager::printData() {
         }
         cout << '\n';
     }
+    cout << '\n';
 }
 
 void Manager::addCategory() {
@@ -49,7 +47,7 @@ void Manager::addCategory() {
 
     if (!Manager::data.contains(name)) {
         data.insert(std::make_pair(name, vector<Record>()));
-        //    Manager::writeInFile();
+        Manager::writeInFile();
     } else {
         auto ch = -1;
         cout
@@ -83,12 +81,13 @@ string Manager::addCategory(bool f) {
 }
 
 void Manager::deleteCategory() {
+    printCategories();
     cout << "Enter name of category to delete\n";
     string name;
     getline(cin, name);
     if (Manager::data.contains(name)) {
         data.erase(name);
-        //    Manager::writeInFile();
+        Manager::writeInFile();
     } else {
         auto ch = -1;
         cout
@@ -103,6 +102,7 @@ void Manager::deleteCategory() {
 }
 
 void Manager::deleteRecord() {
+    printData();
     cout << "Enter name of password to delete\n";
     string name;
     getline(cin, name);
@@ -112,8 +112,8 @@ void Manager::deleteRecord() {
             if (pair.second.at(i).getName() == name) {
                 pair.second.erase(pair.second.begin() + i);
                 flag = true;
-                // break;
-                //    Manager::writeInFile();
+                Manager::writeInFile();
+                break;
             }
 
     if (!flag) {
@@ -162,7 +162,7 @@ void Manager::checkPassword() {
 }
 
 void Manager::writeInFile() {
-    std::ofstream file("test.txt");//path
+    std::ofstream file(path);//path
 
     for (const auto &pair: data) {
         string category;
@@ -199,11 +199,12 @@ void Manager::writeInFile() {
 }
 
 void Manager::readFile() {
-    std::ifstream file("test.txt", std::ios::in);//path
+    std::ifstream file(path, std::ios::in);//path
 
     if (!file.is_open()) {
-        cout << "You provided wrong path\nEnter 1 if you want to enter program again\nEnter 0 if you want to quit\n";
-        int ch = -1;
+        cout
+                << "You provided wrong path\nEnter 1 if you want to enter program again\nEnter another digit if you do not want to quit\n";
+        auto ch = -1;
         cin >> ch;
         cin.ignore();
         if (ch == 1)
@@ -227,26 +228,6 @@ void Manager::readFile() {
             string text = values[2];
             string service = values[3];
             string login = values[4];
-
-            for (char &ch: category)
-                ch ^= 'F';
-            for (char &ch: name)
-                ch ^= 'F';
-            for (char &ch: text)
-                ch ^= 'F';
-            for (char &ch: service)
-                ch ^= 'F';
-            for (char &ch: login)
-                ch ^= 'F';
-
-            Record record(name, text, service, login);
-            Manager::insertInData(category, record);
-        } else if (values.size() == 6) {
-            string category = values[1];
-            string name = values[2];
-            string text = values[3];
-            string service = values[4];
-            string login = values[5];
 
             for (char &ch: category)
                 ch ^= 'F';
@@ -305,7 +286,7 @@ void Manager::sortData() {
                 Manager::sortData();
             return;
     }
-    //    Manager::writeInFile();
+    Manager::writeInFile();
 }
 
 void Manager::findRecord() {
@@ -459,7 +440,6 @@ void Manager::editRecord() {
                     case 1:
                         cout << "Enter the new name\n";
                         getline(cin, name);
-                        i.setName(name);
                         for (auto &pairj: data)
                             for (auto &j: pairj.second)
                                 if (j.getName() == name) {
@@ -471,6 +451,7 @@ void Manager::editRecord() {
                                         Manager::editRecord();
                                     return;
                                 }
+                        i.setName(name);
                         break;
                     case 2:
                         cout << "Enter the new password\n";
@@ -496,7 +477,7 @@ void Manager::editRecord() {
                             Manager::editRecord();
                         return;
                 }
-                //    Manager::writeInFile();
+                Manager::writeInFile();
             } else {
                 cout
                         << "Wrong input\nEnter 1 if you want to try to edit password again\nEnter another digit if you want to stop editing password\n";
@@ -509,19 +490,17 @@ void Manager::editRecord() {
 }
 
 void Manager::start() {
+    string pathN;
+    cout << "Enter the absolute path to your source file\n";
+    getline(cin, pathN);
+    path = pathN;
+
     checkPassword(); //passMan is the password
-    system("Color 0A");
     cout << '\t';
     for (char i: "Password Manager") {
         cout << ' ' << i;
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
     cout << '\n';
-    system("Color 7");
-
-    string pathN;
-    cout << "Enter the absolute path to your source file\n";
-    getline(cin, pathN);
-    path = pathN;
     readFile();
 }

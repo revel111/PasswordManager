@@ -151,7 +151,7 @@ void Record::addRecord() {
     if (password.size() >= 12)
         score += 20;
 
-    cout << "The strength of your password is " << score
+    cout << "The strength of your password: " << password << " is " << score
          << "/100 \nEnter 1 if you want to use this password\nEnter another digit if you want to try to create password again\n";
     cin >> ch;
     cin.ignore();
@@ -168,6 +168,7 @@ void Record::addRecord() {
     switch (ch) {
         case 1:
             Manager::printCategories();
+            cout << "Enter a name of a category\n";
             getline(cin, category);
             if (!Manager::getData().contains(category)) {
                 cout
@@ -180,7 +181,8 @@ void Record::addRecord() {
             }
             break;
         case 2:
-            category = Manager::addCategory(true);
+            cout << "Enter a name of a category\n";
+            getline(cin, category);
             break;
         case 0:
             return;
@@ -248,7 +250,7 @@ void Record::addRecord() {
     }
     Record record(name, password, service, login);
     Manager::insertInData(category, record);
-//    Manager::writeInFile();
+    Manager::writeInFile();
 }
 
 string Record::generatePassword() {
@@ -276,7 +278,7 @@ string Record::generatePassword() {
     }
 
     cout
-            << "Enter 1 if you want to have lowercase and uppercase letters\nEnter 2 if you want to have only lowercase letters\nEnter 3 if you want to have only uppercase letters\nEnter 0 if you want to want to stop generating password\n";
+            << "Enter 1 if you want to have lowercase and uppercase letters\nEnter 2 if you want to have only lowercase letters\nEnter 3 if you want to have only uppercase letters\nEnter 4 if you do not want to have letters\nEnter 0 if you want to want to stop generating password\n";
     cin >> lowerUpper;
     cin.ignore();
 
@@ -290,6 +292,8 @@ string Record::generatePassword() {
             break;
         case 3:
             characters += upCase;
+            break;
+        case 4:
             break;
         case 0:
             return "";
@@ -333,13 +337,5 @@ string Record::generatePassword() {
         password += characters[random];
     }
 
-    cout << "Enter 1 if you want to use this password: " << password << '\n'
-         << "Enter another digit to use regenerate password\n";
-    cin >> numberChar;
-    cin.ignore();
-    if (numberChar != 1) {
-        Record::generatePassword();
-        return "";
-    }
     return password;
 }
