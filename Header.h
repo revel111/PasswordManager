@@ -46,7 +46,7 @@ public:
     /** Setter for login because of private field. @return void */
     auto setLogin(string login) -> void;
 
-    /** Constructor when we have both service and login. @return bool */
+    /** Constructor for Record. @return void */
     Record(string nameN, string textN, string serviceN, string loginN);
 
     /** Comparator for sorting records by their names. @return bool */

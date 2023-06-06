@@ -112,7 +112,6 @@ void Manager::checkPassword() {
     string password;
     cout << "Enter the password\n";
     getline(cin, password); //passMan is the password
-
     bool flag = true;
     string checkStr = "6'55\u000B'(";
 
@@ -170,7 +169,6 @@ void Manager::writeInFile() {
                  << " " << login << '\n';
         }
     }
-
     file.close();
 }
 
